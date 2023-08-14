@@ -104,28 +104,27 @@ class CreateGripTrainerProduct implements DataPatchInterface
      * @param CategoryCollectionFactory $categoryCollectionFactory
      */
     public function __construct(
-        ModuleDataSetupInterface        $setup,
-        ProductInterfaceFactory         $productInterfaceFactory,
-        ProductRepositoryInterface      $productRepository,
-        State                           $appState,
-        StoreManagerInterface           $storeManager,
-        EavSetup                        $eavSetup,
-        SourceItemInterfaceFactory      $sourceItemFactory,
-        SourceItemsSaveInterface        $sourceItemsSaveInterface,
-        CategoryLinkManagementInterface $categoryLink,
-        CategoryCollectionFactory       $categoryCollectionFactory
-    )
-    {
-        $this->appState = $appState;
-        $this->productInterfaceFactory = $productInterfaceFactory;
-        $this->productRepository = $productRepository;
-        $this->setup = $setup;
-        $this->eavSetup = $eavSetup;
-        $this->storeManager = $storeManager;
-        $this->sourceItemFactory = $sourceItemFactory;
-        $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
-        $this->categoryLink = $categoryLink;
-        $this->categoryCollectionFactory = $categoryCollectionFactory;
+            ModuleDataSetupInterface        $setup,
+            ProductInterfaceFactory         $productInterfaceFactory,
+            ProductRepositoryInterface      $productRepository,
+            State                           $appState,
+            StoreManagerInterface           $storeManager,
+            EavSetup                        $eavSetup,
+            SourceItemInterfaceFactory      $sourceItemFactory,
+            SourceItemsSaveInterface        $sourceItemsSaveInterface,
+            CategoryLinkManagementInterface $categoryLink,
+            CategoryCollectionFactory       $categoryCollectionFactory
+    ) {
+            $this->appState = $appState;
+            $this->productInterfaceFactory = $productInterfaceFactory;
+            $this->productRepository = $productRepository;
+            $this->setup = $setup;
+            $this->eavSetup = $eavSetup;
+            $this->storeManager = $storeManager;
+            $this->sourceItemFactory = $sourceItemFactory;
+            $this->sourceItemsSaveInterface = $sourceItemsSaveInterface;
+            $this->categoryLink = $categoryLink;
+            $this->categoryCollectionFactory = $categoryCollectionFactory;
     }
 
     /**
