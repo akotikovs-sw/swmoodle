@@ -1,9 +1,9 @@
 <?php
 /**
- * @package Scandiweb_Test
- * @author Arturs Kotikovs <info@scandiweb.com>
+ * @package   Scandiweb_Test
+ * @author    Arturs Kotikovs <info@scandiweb.com>
  * @copyright Copyright (c) 2023 Scandiweb, Ltd (http://scandiweb.com)
- * @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
+ * @license   http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
  */
 
 declare(strict_types=1);
@@ -18,6 +18,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
 use Magento\Catalog\Model\Product\Type;
 use Magento\Catalog\Model\Product\Visibility;
+use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Framework\App\State;
 use Magento\Framework\Exception\CouldNotSaveException;
@@ -28,11 +29,10 @@ use Magento\Framework\Exception\StateException;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\Patch\DataPatchInterface;
 use Magento\Framework\Validation\ValidationException;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\InventoryApi\Api\Data\SourceItemInterface;
 use Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory;
 use Magento\InventoryApi\Api\SourceItemsSaveInterface;
-use Magento\Catalog\Model\ResourceModel\Category\CollectionFactory as CategoryCollectionFactory;
+use Magento\Store\Model\StoreManagerInterface;
 
 class CreateGripTrainerProduct implements DataPatchInterface
 {
@@ -92,30 +92,29 @@ class CreateGripTrainerProduct implements DataPatchInterface
     protected CategoryCollectionFactory $categoryCollectionFactory;
 
     /**
-     * @param ModuleDataSetupInterface $setup
-     * @param ProductInterfaceFactory $productInterfaceFactory
-     * @param ProductRepositoryInterface $productRepository
-     * @param State $appState
-     * @param StoreManagerInterface $storeManager
-     * @param EavSetup $eavSetup
-     * @param SourceItemInterfaceFactory $sourceItemFactory
-     * @param SourceItemsSaveInterface $sourceItemsSaveInterface
+     * @param ModuleDataSetupInterface        $setup
+     * @param ProductInterfaceFactory         $productInterfaceFactory
+     * @param ProductRepositoryInterface      $productRepository
+     * @param State                           $appState
+     * @param StoreManagerInterface           $storeManager
+     * @param EavSetup                        $eavSetup
+     * @param SourceItemInterfaceFactory      $sourceItemFactory
+     * @param SourceItemsSaveInterface        $sourceItemsSaveInterface
      * @param CategoryLinkManagementInterface $categoryLink
-     * @param CategoryCollectionFactory $categoryCollectionFactory
+     * @param CategoryCollectionFactory       $categoryCollectionFactory
      */
     public function __construct(
-        ModuleDataSetupInterface        $setup,
-        ProductInterfaceFactory         $productInterfaceFactory,
-        ProductRepositoryInterface      $productRepository,
-        State                           $appState,
-        StoreManagerInterface           $storeManager,
-        EavSetup                        $eavSetup,
-        SourceItemInterfaceFactory      $sourceItemFactory,
-        SourceItemsSaveInterface        $sourceItemsSaveInterface,
+        ModuleDataSetupInterface $setup,
+        ProductInterfaceFactory $productInterfaceFactory,
+        ProductRepositoryInterface $productRepository,
+        State $appState,
+        StoreManagerInterface $storeManager,
+        EavSetup $eavSetup,
+        SourceItemInterfaceFactory $sourceItemFactory,
+        SourceItemsSaveInterface $sourceItemsSaveInterface,
         CategoryLinkManagementInterface $categoryLink,
-        CategoryCollectionFactory       $categoryCollectionFactory
-    )
-    {
+        CategoryCollectionFactory $categoryCollectionFactory
+    ) {
         $this->appState = $appState;
         $this->productInterfaceFactory = $productInterfaceFactory;
         $this->productRepository = $productRepository;
@@ -154,7 +153,8 @@ class CreateGripTrainerProduct implements DataPatchInterface
             return;
         }
 
-        $attributeSetId = $this->eavSetup->getAttributeSetId(Product::ENTITY, 'Default');
+        $attributeSetId = $this->eavSetup->getAttributeSetId(Product::ENTITY,
+            'Default');
         $product->setTypeId(Type::TYPE_SIMPLE)
             ->setAttributeSetId($attributeSetId)
             ->setName('Grip Trainer 2')
@@ -171,14 +171,19 @@ class CreateGripTrainerProduct implements DataPatchInterface
             ->addAttributeToFilter('name', ['in' => $categoryTitles])
             ->getAllIds();
 
-        $this->categoryLink->assignProductToCategories($product->getSku(), $categoryIds);
+        $this->categoryLink->assignProductToCategories($product->getSku(),
+            $categoryIds);
 
         $product->setCustomAttribute('strength', 1);
 
         $websiteIDs = [$this->storeManager->getStore()->getWebsiteId()];
 
         $product->setWebsiteIds($websiteIDs);
-        $product->setStockData(['use_config_manage_stock' => 1, 'is_qty_decimal' => 0, 'is_in_stock' => 1]);
+        $product->setStockData([
+            'use_config_manage_stock' => 1,
+            'is_qty_decimal' => 0,
+            'is_in_stock' => 1
+        ]);
 
         $sourceItem = $this->sourceItemFactory->create();
         $sourceItem->setSourceCode('default');
